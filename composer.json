@@ -4,8 +4,16 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"type": "project",
+"require-dev": {
+    "way/generators": "~2.0",
+    "codeception/codeception": "2.0.*"
+},
 	"require": {
-		"laravel/framework": "4.2.*"
+		"laravel/framework": "4.2.*",
+		"barryvdh/laravel-debugbar": "~1.8",
+		"fzaninotto/faker":"*",
+		"jhonn921007/imap": "*",
+		"aloha/twilio": "~1.0"
 	},
 	"autoload": {
 		"classmap": [

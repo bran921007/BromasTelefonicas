@@ -13,5 +13,6 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	return View::make('dashboard.dashboard');
 });
+//Route::get('dashboard', ['as' => 'dashboard', 'uses' => 'HomeController@dashboard']);

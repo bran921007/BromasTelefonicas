@@ -19,3 +19,13 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+$router->get('foo', function()
+{
+		return 'foo';
+});
+
+Route::get('bar', function()
+{
+		return 'bar';
+});

@@ -12,20 +12,13 @@
 
   <!-- Le styles -->
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="http://aozora.github.io/bootplus/assets/css/font-awesome.min.css">
   <link href="http://aozora.github.io/bootplus/assets/css/bootplus.css" rel="stylesheet">
-  <link href="http://aozora.github.io/bootplus/assets/css/bootplus-responsive.css" rel="stylesheet">
-
-  <link href="http://aozora.github.io/bootplus/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-  <!-- Latest compiled and minified CSS -->
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
 
   <!-- LOAD Angular -->
   <script charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
 
   <style>
   body {
-    background-color: #e5e5e5 !important;
     padding-top: 20px;
     padding-bottom: 60px;
     background-color: #FFF;
@@ -58,7 +51,7 @@
     padding: 14px 24px;
   }
 
-  select {
+  select,input {
     /*font-size: 21px;*/
     margin-top: 12px;
     border-radius: 2px;
@@ -96,29 +89,23 @@
 </div>
 
 <div class="jumbotron " align="center"  ng-show="formulario == false">
-  <h2>Servicio de bromas telefonicas</h2>
   <h2>Haz llamadas de bromas personalizables</h2>
   <a class="btn btn-large btn-success" href="#" ng-click="comienza()">Comienza</a>
 </div>
 
-<div class="jumbotron " ng-show="formulario == true" >
+<div class="jumbotron " ng-show="formulario == true">
   <div class="" style="margin: 0 auto;
   max-width: 35%;">
   <div class="card">
-    <h3 class="card-heading simple">Personaliza tu broma</h3>
+    <h3 class="card-heading simple">Personaliza tu llamada</h3>
     <div class="card-body">
-      <div class="input-prepend">
-        <span class="add-on">1</span>
-        <input class="span2" id="prependedInput" type="text" placeholder="809+715+3217" required>
-      </div>
+      <div class="form-group ">
+        <select class="form-control">
+          <option>Seleccione su Pais</option>
 
-      <div>
-        <textarea  rows="3" placeholder="Mensaje de voz" required></textarea>
+        </select>
+        <input type="text" class="form-control">
       </div>
-
-    </div>
-    <div class="card-comments">
-      <a href="#"  class="btn btn-large btn-primary ">Realizar Llamada!</a>
 
     </div>
   </div>
@@ -129,8 +116,6 @@
 
 <!-- Le javascript
 ================================================== -->
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="http://aozora.github.io/bootplus/assets/js/bootstrap-button.js"></script>
 <script >
 function myController($scope){
   $scope.formulario = false;
@@ -138,7 +123,6 @@ function myController($scope){
     $scope.formulario = true;
   }
 }
-
 </script>
 
 </body>

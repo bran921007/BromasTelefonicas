@@ -2,12 +2,8 @@
 
 use FilesystemIterator;
 use Symfony\Component\Finder\Finder;
-use Illuminate\Support\Traits\Macroable;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class Filesystem {
-
-	use Macroable;
 
 	/**
 	 * Determine if a file exists.
@@ -26,7 +22,7 @@ class Filesystem {
 	 * @param  string  $path
 	 * @return string
 	 *
-	 * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+	 * @throws FileNotFoundException
 	 */
 	public function get($path)
 	{
@@ -41,7 +37,7 @@ class Filesystem {
 	 * @param  string  $path
 	 * @return mixed
 	 *
-	 * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+	 * @throws FileNotFoundException
 	 */
 	public function getRequire($path)
 	{
@@ -66,12 +62,11 @@ class Filesystem {
 	 *
 	 * @param  string  $path
 	 * @param  string  $contents
-	 * @param  bool  $lock
 	 * @return int
 	 */
-	public function put($path, $contents, $lock = false)
+	public function put($path, $contents)
 	{
-		return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
+		return file_put_contents($path, $contents);
 	}
 
 	/**
@@ -143,7 +138,7 @@ class Filesystem {
 	{
 		return copy($path, $target);
 	}
-
+	
 	/**
 	 * Extract the file name from a file path.
 	 *

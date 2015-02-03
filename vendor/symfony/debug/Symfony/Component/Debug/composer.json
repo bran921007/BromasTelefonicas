@@ -16,8 +16,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
-        "psr/log": "~1.0"
+        "php": ">=5.3.3"
     },
     "require-dev": {
         "symfony/class-loader": "~2.2",
@@ -35,7 +34,7 @@
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "2.6-dev"
+            "dev-master": "2.5-dev"
         }
     }
 }

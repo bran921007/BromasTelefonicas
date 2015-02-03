@@ -213,7 +213,7 @@ abstract class Relation {
 	 *
 	 * @return string
 	 */
-	public function getQualifiedParentKeyName()
+	protected function getQualifiedParentKeyName()
 	{
 		return $this->parent->getQualifiedKeyName();
 	}

@@ -2,21 +2,16 @@
 
 use Closure;
 use DateTime;
-use Countable;
-use Exception;
 use DateTimeZone;
-use RuntimeException;
-use BadMethodCallException;
-use InvalidArgumentException;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\MessageBag;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Illuminate\Contracts\Validation\Validator as ValidatorContract;
+use Illuminate\Support\Contracts\MessageProviderInterface;
 
-class Validator implements ValidatorContract {
+class Validator implements MessageProviderInterface {
 
 	/**
 	 * The Translator implementation.
@@ -31,13 +26,6 @@ class Validator implements ValidatorContract {
 	 * @var \Illuminate\Validation\PresenceVerifierInterface
 	 */
 	protected $presenceVerifier;
-
-	/**
-	 * The container instance.
-	 *
-	 * @var \Illuminate\Contracts\Container\Container
-	 */
-	protected $container;
 
 	/**
 	 * The failed validation rules.
@@ -73,13 +61,6 @@ class Validator implements ValidatorContract {
 	 * @var array
 	 */
 	protected $rules;
-
-	/**
-	 * All of the registered "after" callbacks.
-	 *
-	 * @var array
-	 */
-	protected $after = array();
 
 	/**
 	 * The array of custom error messages.
@@ -168,21 +149,15 @@ class Validator implements ValidatorContract {
 	/**
 	 * Parse the data and hydrate the files array.
 	 *
-	 * @param  array   $data
-	 * @param  string  $arrayKey
+	 * @param  array  $data
 	 * @return array
 	 */
-	protected function parseData(array $data, $arrayKey = null)
+	protected function parseData(array $data)
 	{
-		if (is_null($arrayKey))
-		{
-			$this->files = array();
-		}
+		$this->files = array();
 
 		foreach ($data as $key => $value)
 		{
-			$key = ($arrayKey) ? "$arrayKey.$key" : $key;
-
 			// If this value is an instance of the HttpFoundation File class we will
 			// remove it from the data array and add it to the files array, which
 			// we use to conveniently separate out these files from other data.
@@ -191,10 +166,6 @@ class Validator implements ValidatorContract {
 				$this->files[$key] = $value;
 
 				unset($data[$key]);
-			}
-			elseif (is_array($value))
-			{
-				$this->parseData($value, $key);
 			}
 		}
 
@@ -215,22 +186,6 @@ class Validator implements ValidatorContract {
 		}
 
 		return $rules;
-	}
-
-	/**
-	 * After an after validation callback.
-	 *
-	 * @param  callable|string  $callback
-	 * @return $this
-	 */
-	public function after($callback)
-	{
-		$this->after[] = function() use ($callback)
-		{
-			return call_user_func_array($callback, [$this]);
-		};
-
-		return $this;
 	}
 
 	/**
@@ -271,7 +226,7 @@ class Validator implements ValidatorContract {
 		{
 			if ($this->hasRule($attribute, 'Array')) return;
 
-			throw new InvalidArgumentException('Attribute for each() must be an array.');
+			throw new \InvalidArgumentException('Attribute for each() must be an array.');
 		}
 
 		foreach ($data as $dataKey => $dataValue)
@@ -317,14 +272,6 @@ class Validator implements ValidatorContract {
 			{
 				$this->validate($attribute, $rule);
 			}
-		}
-
-		// Here we will spin through all of the "after" hooks on this validator and
-		// fire them off. This gives the callbacks a chance to perform all kinds
-		// of other validation that needs to get wrapped up in this operation.
-		foreach ($this->after as $after)
-		{
-			call_user_func($after);
 		}
 
 		return count($this->messages->all()) === 0;
@@ -479,7 +426,7 @@ class Validator implements ValidatorContract {
 	protected function hasNotFailedPreviousRuleIfPresenceRule($rule, $attribute)
 	{
 		return in_array($rule, ['Unique', 'Exists'])
-						? ! $this->messages->has($attribute) : true;
+						? ! $this->messages->has($attribute): true;
 	}
 
 	/**
@@ -543,7 +490,7 @@ class Validator implements ValidatorContract {
 		{
 			return false;
 		}
-		elseif ((is_array($value) || $value instanceof Countable) && count($value) < 1)
+		elseif ((is_array($value) || $value instanceof \Countable) && count($value) < 1)
 		{
 			return false;
 		}
@@ -790,18 +737,6 @@ class Validator implements ValidatorContract {
 	}
 
 	/**
-	 * Validate that an attribute is an array.
-	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @return bool
-	 */
-	protected function validateArray($attribute, $value)
-	{
-		return is_array($value);
-	}
-
-	/**
 	 * Validate that an attribute is a boolean.
 	 *
 	 * @param  string  $attribute
@@ -816,15 +751,15 @@ class Validator implements ValidatorContract {
 	}
 
 	/**
-	 * Validate that an attribute is an integer.
+	 * Validate that an attribute is an array.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
 	 * @return bool
 	 */
-	protected function validateInteger($attribute, $value)
+	protected function validateArray($attribute, $value)
 	{
-		return filter_var($value, FILTER_VALIDATE_INT) !== false;
+		return is_array($value);
 	}
 
 	/**
@@ -840,15 +775,15 @@ class Validator implements ValidatorContract {
 	}
 
 	/**
-	 * Validate that an attribute is a string.
+	 * Validate that an attribute is an integer.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
 	 * @return bool
 	 */
-	protected function validateString($attribute, $value)
+	protected function validateInteger($attribute, $value)
 	{
-		return is_string($value);
+		return filter_var($value, FILTER_VALIDATE_INT) !== false;
 	}
 
 	/**
@@ -977,7 +912,20 @@ class Validator implements ValidatorContract {
 			return $value->getSize() / 1024;
 		}
 
-		return mb_strlen($value);
+		return $this->getStringSize($value);
+	}
+
+	/**
+	 * Get the size of a string.
+	 *
+	 * @param  string  $value
+	 * @return int
+	 */
+	protected function getStringSize($value)
+	{
+		if (function_exists('mb_strlen')) return mb_strlen($value);
+
+		return strlen($value);
 	}
 
 	/**
@@ -1204,7 +1152,7 @@ class Validator implements ValidatorContract {
 	{
 		$url = str_replace(array('http://', 'https://', 'ftp://'), '', strtolower($value));
 
-		return checkdnsrr($url, 'A');
+		return checkdnsrr($url);
 	}
 
 	/**
@@ -1216,7 +1164,7 @@ class Validator implements ValidatorContract {
 	 */
 	protected function validateImage($attribute, $value)
 	{
-		return $this->validateMimes($attribute, $value, array('jpeg', 'png', 'gif', 'bmp', 'svg'));
+		return $this->validateMimes($attribute, $value, array('jpeg', 'png', 'gif', 'bmp'));
 	}
 
 	/**
@@ -1450,9 +1398,9 @@ class Validator implements ValidatorContract {
 		{
 			return new DateTime($value);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			return;
+			return null;
 		}
 	}
 
@@ -1469,7 +1417,7 @@ class Validator implements ValidatorContract {
 		{
 			new DateTimeZone($value);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			return false;
 		}
@@ -2302,7 +2250,7 @@ class Validator implements ValidatorContract {
 	{
 		if ( ! isset($this->presenceVerifier))
 		{
-			throw new RuntimeException("Presence verifier has not been set.");
+			throw new \RuntimeException("Presence verifier has not been set.");
 		}
 
 		return $this->presenceVerifier;
@@ -2473,7 +2421,7 @@ class Validator implements ValidatorContract {
 	/**
 	 * Set the IoC container instance.
 	 *
-	 * @param  \Illuminate\Contracts\Container\Container  $container
+	 * @param  \Illuminate\Container\Container  $container
 	 * @return void
 	 */
 	public function setContainer(Container $container)
@@ -2569,7 +2517,7 @@ class Validator implements ValidatorContract {
 	{
 		if (count($parameters) < $count)
 		{
-			throw new InvalidArgumentException("Validation rule $rule requires at least $count parameters.");
+			throw new \InvalidArgumentException("Validation rule $rule requires at least $count parameters.");
 		}
 	}
 
@@ -2591,7 +2539,7 @@ class Validator implements ValidatorContract {
 			return $this->callExtension($rule, $parameters);
 		}
 
-		throw new BadMethodCallException("Method [$method] does not exist.");
+		throw new \BadMethodCallException("Method [$method] does not exist.");
 	}
 
 }

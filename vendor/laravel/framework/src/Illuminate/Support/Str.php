@@ -1,12 +1,11 @@
 <?php namespace Illuminate\Support;
 
-use RuntimeException;
-use Stringy\StaticStringy;
-use Illuminate\Support\Traits\Macroable;
+use Patchwork\Utf8;
+use Illuminate\Support\Traits\MacroableTrait;
 
 class Str {
 
-	use Macroable;
+	use MacroableTrait;
 
 	/**
 	 * The cache of snake-cased words.
@@ -37,7 +36,7 @@ class Str {
 	 */
 	public static function ascii($value)
 	{
-		return StaticStringy::toAscii($value);
+		return Utf8::toAscii($value);
 	}
 
 	/**
@@ -213,19 +212,19 @@ class Str {
 	 */
 	public static function random($length = 16)
 	{
-		if ( ! function_exists('openssl_random_pseudo_bytes'))
+		if (function_exists('openssl_random_pseudo_bytes'))
 		{
-			throw new RuntimeException('OpenSSL extension is required.');
+			$bytes = openssl_random_pseudo_bytes($length * 2);
+
+			if ($bytes === false)
+			{
+				throw new \RuntimeException('Unable to generate random string.');
+			}
+
+			return substr(str_replace(array('/', '+', '='), '', base64_encode($bytes)), 0, $length);
 		}
 
-		$bytes = openssl_random_pseudo_bytes($length * 2);
-
-		if ($bytes === false)
-		{
-			throw new RuntimeException('Unable to generate random string.');
-		}
-
-		return substr(str_replace(array('/', '+', '='), '', base64_encode($bytes)), 0, $length);
+		return static::quickRandom($length);
 	}
 
 	/**
@@ -310,19 +309,19 @@ class Str {
 	 */
 	public static function snake($value, $delimiter = '_')
 	{
-		$key = $value.$delimiter;
-
-		if (isset(static::$snakeCache[$key]))
+		if (isset(static::$snakeCache[$value.$delimiter]))
 		{
-			return static::$snakeCache[$key];
+			return static::$snakeCache[$value.$delimiter];
 		}
 
 		if ( ! ctype_lower($value))
 		{
-			$value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value));
+			$replace = '$1'.$delimiter.'$2';
+
+			$value = strtolower(preg_replace('/(.)([A-Z])/', $replace, $value));
 		}
 
-		return static::$snakeCache[$key] = $value;
+		return static::$snakeCache[$value.$delimiter] = $value;
 	}
 
 	/**
@@ -350,16 +349,14 @@ class Str {
 	 */
 	public static function studly($value)
 	{
-		$key = $value;
-
-		if (isset(static::$studlyCache[$key]))
+		if (isset(static::$studlyCache[$value]))
 		{
-			return static::$studlyCache[$key];
+			return static::$studlyCache[$value];
 		}
 
 		$value = ucwords(str_replace(array('-', '_'), ' ', $value));
 
-		return static::$studlyCache[$key] = str_replace(' ', '', $value);
+		return static::$studlyCache[$value] = str_replace(' ', '', $value);
 	}
 
 }

@@ -1,9 +1,7 @@
 <?php namespace Illuminate\Database\Eloquent;
 
 use Closure;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Query\Expression;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
@@ -105,22 +103,13 @@ class Builder {
 	 *
 	 * @param  mixed  $id
 	 * @param  array  $columns
-	 * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection
+	 * @return \Illuminate\Database\Eloquent\Model|static
 	 *
 	 * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
 	 */
 	public function findOrFail($id, $columns = array('*'))
 	{
-		$result = $this->find($id, $columns);
-
-		if (is_array($id))
-		{
-			if (count($result) == count(array_unique($id))) return $result;
-		}
-		elseif ( ! is_null($result))
-		{
-			return $result;
-		}
+		if ( ! is_null($model = $this->find($id, $columns))) return $model;
 
 		throw (new ModelNotFoundException)->setModel(get_class($this->model));
 	}
@@ -237,44 +226,83 @@ class Builder {
 	}
 
 	/**
-	 * Paginate the given query.
+	 * Get a paginator for the "select" statement.
 	 *
-	 * @param  int  $perPage
+	 * @param  int    $perPage
 	 * @param  array  $columns
-	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+	 * @return \Illuminate\Pagination\Paginator
 	 */
-	public function paginate($perPage = 15, $columns = ['*'])
+	public function paginate($perPage = null, $columns = array('*'))
 	{
-		$total = $this->query->getCountForPagination();
+		$perPage = $perPage ?: $this->model->getPerPage();
 
-		$this->query->forPage(
-			$page = Paginator::resolveCurrentPage(),
-			$perPage = $perPage ?: $this->model->getPerPage()
-		);
+		$paginator = $this->query->getConnection()->getPaginator();
 
-		return new LengthAwarePaginator($this->get($columns)->all(), $total, $perPage, $page, [
-			'path' => Paginator::resolveCurrentPath()
-		]);
+		if (isset($this->query->groups))
+		{
+			return $this->groupedPaginate($paginator, $perPage, $columns);
+		}
+
+		return $this->ungroupedPaginate($paginator, $perPage, $columns);
 	}
 
 	/**
-	 * Paginate the given query into a simple paginator.
+	 * Get a paginator for a grouped statement.
 	 *
-	 * @param  int  $perPage
+	 * @param  \Illuminate\Pagination\Factory  $paginator
+	 * @param  int    $perPage
 	 * @param  array  $columns
-	 * @return \Illuminate\Contracts\Pagination\Paginator
+	 * @return \Illuminate\Pagination\Paginator
 	 */
-	public function simplePaginate($perPage = null, $columns = ['*'])
+	protected function groupedPaginate($paginator, $perPage, $columns)
 	{
-		$page = Paginator::resolveCurrentPage();
+		$results = $this->get($columns)->all();
+
+		return $this->query->buildRawPaginator($paginator, $results, $perPage);
+	}
+
+	/**
+	 * Get a paginator for an ungrouped statement.
+	 *
+	 * @param  \Illuminate\Pagination\Factory  $paginator
+	 * @param  int    $perPage
+	 * @param  array  $columns
+	 * @return \Illuminate\Pagination\Paginator
+	 */
+	protected function ungroupedPaginate($paginator, $perPage, $columns)
+	{
+		$total = $this->query->getPaginationCount();
+
+		// Once we have the paginator we need to set the limit and offset values for
+		// the query so we can get the properly paginated items. Once we have an
+		// array of items we can create the paginator instances for the items.
+		$page = $paginator->getCurrentPage($total);
+
+		$this->query->forPage($page, $perPage);
+
+		return $paginator->make($this->get($columns)->all(), $total, $perPage);
+	}
+
+	/**
+	 * Get a paginator only supporting simple next and previous links.
+	 *
+	 * This is more efficient on larger data-sets, etc.
+	 *
+	 * @param  int    $perPage
+	 * @param  array  $columns
+	 * @return \Illuminate\Pagination\Paginator
+	 */
+	public function simplePaginate($perPage = null, $columns = array('*'))
+	{
+		$paginator = $this->query->getConnection()->getPaginator();
+
+		$page = $paginator->getCurrentPage();
 
 		$perPage = $perPage ?: $this->model->getPerPage();
 
-		$this->skip(($page - 1) * $perPage)->take($perPage + 1);
+		$this->query->skip(($page - 1) * $perPage)->take($perPage + 1);
 
-		return new Paginator($this->get($columns)->all(), $perPage, $page, [
-			'path' => Paginator::resolveCurrentPath()
-		]);
+		return $paginator->make($this->get($columns)->all(), $perPage);
 	}
 
 	/**
@@ -569,11 +597,6 @@ class Builder {
 	 */
 	public function has($relation, $operator = '>=', $count = 1, $boolean = 'and', Closure $callback = null)
 	{
-		if (strpos($relation, '.') !== false)
-		{
-			return $this->hasNested($relation, $operator, $count, $boolean, $callback);
-		}
-
 		$relation = $this->getHasRelationQuery($relation);
 
 		$query = $relation->getRelationCountQuery($relation->getRelated()->newQuery(), $this);
@@ -581,38 +604,6 @@ class Builder {
 		if ($callback) call_user_func($callback, $query);
 
 		return $this->addHasWhere($query, $relation, $operator, $count, $boolean);
-	}
-
-	/**
-	 * Add nested relationship count conditions to the query.
-	 *
-	 * @param  string  $relations
-	 * @param  string  $operator
-	 * @param  int     $count
-	 * @param  string  $boolean
-	 * @param  \Closure  $callback
-	 * @return \Illuminate\Database\Eloquent\Builder|static
-	 */
-	protected function hasNested($relations, $operator = '>=', $count = 1, $boolean = 'and', $callback = null)
-	{
-		$relations = explode('.', $relations);
-
-		// In order to nest "has", we need to add count relation constraints on the
-		// callback Closure. We'll do this by simply passing the Closure its own
-		// reference to itself so it calls itself recursively on each segment.
-		$closure = function ($q) use (&$closure, &$relations, $operator, $count, $boolean, $callback)
-		{
-			if (count($relations) > 1)
-			{
-				$q->whereHas(array_shift($relations), $closure);
-			}
-			else
-			{
-				$q->has(array_shift($relations), $operator, $count, $boolean, $callback);
-			}
-		};
-
-		return $this->whereHas(array_shift($relations), $closure);
 	}
 
 	/**
@@ -845,13 +836,11 @@ class Builder {
 	 * Set the underlying query builder instance.
 	 *
 	 * @param  \Illuminate\Database\Query\Builder  $query
-	 * @return $this
+	 * @return void
 	 */
 	public function setQuery($query)
 	{
 		$this->query = $query;
-
-		return $this;
 	}
 
 	/**
@@ -868,13 +857,11 @@ class Builder {
 	 * Set the relationships being eagerly loaded.
 	 *
 	 * @param  array  $eagerLoad
-	 * @return $this
+	 * @return void
 	 */
 	public function setEagerLoads(array $eagerLoad)
 	{
 		$this->eagerLoad = $eagerLoad;
-
-		return $this;
 	}
 
 	/**

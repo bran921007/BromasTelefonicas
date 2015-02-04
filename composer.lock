@@ -110,12 +110,12 @@
             "version": "1.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mtdowling/ClassPreloader.git",
+                "url": "https://github.com/ClassPreloader/ClassPreloader.git",
                 "reference": "2c9f3bcbab329570c57339895bd11b5dd3b00877"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mtdowling/ClassPreloader/zipball/2c9f3bcbab329570c57339895bd11b5dd3b00877",
+                "url": "https://api.github.com/repos/ClassPreloader/ClassPreloader/zipball/2c9f3bcbab329570c57339895bd11b5dd3b00877",
                 "reference": "2c9f3bcbab329570c57339895bd11b5dd3b00877",
                 "shasum": ""
             },
@@ -2443,16 +2443,16 @@
     "packages-dev": [
         {
             "name": "codeception/codeception",
-            "version": "2.0.10",
+            "version": "2.0.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "1e64d32dacb1a6a599e7e51ef850709adcc79f74"
+                "reference": "e86978809e916ca942698b73a7b997730f500cae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/1e64d32dacb1a6a599e7e51ef850709adcc79f74",
-                "reference": "1e64d32dacb1a6a599e7e51ef850709adcc79f74",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/e86978809e916ca942698b73a7b997730f500cae",
+                "reference": "e86978809e916ca942698b73a7b997730f500cae",
                 "shasum": ""
             },
             "require": {
@@ -2474,6 +2474,7 @@
                 "codeception/specify": "~0.3",
                 "facebook/php-sdk": "~3.2",
                 "flow/jsonpath": "~0.1",
+                "monolog/monolog": "~1.8",
                 "pda/pheanstalk": "~2.0",
                 "videlalvaro/php-amqplib": "~2.4"
             },
@@ -2518,7 +2519,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2015-02-03 02:41:01"
+            "time": "2015-02-03 14:54:45"
         },
         {
             "name": "doctrine/instantiator",

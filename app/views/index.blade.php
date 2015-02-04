@@ -109,16 +109,16 @@
     <div class="card-body">
       <div class="input-prepend">
         <span class="add-on">1</span>
-        <input class="span2" id="prependedInput" type="text" placeholder="809+715+3217" required>
+        <input class="span2" id="telefono" type="text" placeholder="809+715+3217" required>
       </div>
 
       <div>
-        <textarea  rows="3" placeholder="Mensaje de voz" required></textarea>
+        <textarea id="mensaje" rows="3" placeholder="Mensaje de voz" required></textarea>
       </div>
 
     </div>
     <div class="card-comments">
-      <a href="#"  class="btn btn-large btn-primary ">Realizar Llamada!</a>
+      <a href="#" id='call' class="btn btn-large btn-primary ">Realizar Llamada!</a>
 
     </div>
   </div>
@@ -138,6 +138,38 @@ function myController($scope){
     $scope.formulario = true;
   }
 }
+
+$(document).ready(function(){
+
+  
+  
+
+  $("#call").click(function(){
+    
+    var telefono = $("#telefono").val();
+    var mensaje = $("#mensaje").val();
+    console.log(mensaje);
+    console.log(telefono);
+  
+    
+    $.ajax({
+          type:'POST',
+          url:'/call',
+          data:{
+            telefono:telefono,
+            mensaje :mensaje 
+          }
+  }).done(function(data){
+    if(data.success == false)
+      {
+        alert(data.msg);
+      }else{
+        alert(data.msg);
+      }
+    });
+  });
+
+});
 
 </script>
 

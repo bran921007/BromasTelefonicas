@@ -20,8 +20,7 @@
   <!-- Latest compiled and minified CSS -->
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
 
-  <!-- LOAD Angular -->
-  <script charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+
 
   <style>
   body {
@@ -131,11 +130,16 @@
 ================================================== -->
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="http://aozora.github.io/bootplus/assets/js/bootstrap-button.js"></script>
+<!-- LOAD Angular -->
+<script charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
 <script >
 function myController($scope){
   $scope.formulario = false;
   $scope.comienza = function(){
     $scope.formulario = true;
+  }
+  $scope.llamar = function(){
+    $http.post('/someUrl', data).success(successCallback);
   }
 }
 

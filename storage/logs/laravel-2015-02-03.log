@@ -1,0 +1,99 @@
+[2015-02-03 04:58:11] production.ERROR: exception 'PDOException' with message 'SQLSTATE[HY000] [2002] No such file or directory' in /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:47
+Stack trace:
+#0 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(47): PDO->__construct('mysql:host=loca...', 'forge', '', Array)
+#1 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(20): Illuminate\Database\Connectors\Connector->createConnection('mysql:host=loca...', Array, Array)
+#2 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php(58): Illuminate\Database\Connectors\MySqlConnector->connect(Array)
+#3 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php(47): Illuminate\Database\Connectors\ConnectionFactory->createSingleConnection(Array)
+#4 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Database/DatabaseManager.php(177): Illuminate\Database\Connectors\ConnectionFactory->make(Array, 'mysql')
+#5 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Database/DatabaseManager.php(65): Illuminate\Database\DatabaseManager->makeConnection('mysql')
+#6 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Auth/Passwords/PasswordResetServiceProvider.php(63): Illuminate\Database\DatabaseManager->connection()
+#7 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Container/Container.php(773): Illuminate\Auth\Passwords\PasswordResetServiceProvider->Illuminate\Auth\Passwords\{closure}(Object(Illuminate\Foundation\Application), Array)
+#8 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Container/Container.php(656): Illuminate\Container\Container->build(Object(Closure), Array)
+#9 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(565): Illuminate\Container\Container->make('auth.password.t...', Array)
+#10 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Container/Container.php(1231): Illuminate\Foundation\Application->make('auth.password.t...')
+#11 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Auth/Passwords/PasswordResetServiceProvider.php(39): Illuminate\Container\Container->offsetGet('auth.password.t...')
+#12 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Container/Container.php(773): Illuminate\Auth\Passwords\PasswordResetServiceProvider->Illuminate\Auth\Passwords\{closure}(Object(Illuminate\Foundation\Application), Array)
+#13 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Container/Container.php(656): Illuminate\Container\Container->build(Object(Closure), Array)
+#14 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(565): Illuminate\Container\Container->make('auth.password', Array)
+#15 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Container/Container.php(887): Illuminate\Foundation\Application->make('Illuminate\\Cont...')
+#16 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Container/Container.php(848): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#17 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Container/Container.php(813): Illuminate\Container\Container->getDependencies(Array, Array)
+#18 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Container/Container.php(656): Illuminate\Container\Container->build('App\\Http\\Contro...', Array)
+#19 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(565): Illuminate\Container\Container->make('App\\Http\\Contro...', Array)
+#20 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(83): Illuminate\Foundation\Application->make('App\\Http\\Contro...')
+#21 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(54): Illuminate\Routing\ControllerDispatcher->makeController('App\\Http\\Contro...')
+#22 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Routing/Route.php(198): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'getEmail')
+#23 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Routing/Route.php(131): Illuminate\Routing\Route->runWithCustomDispatcher(Object(Illuminate\Http\Request))
+#24 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Routing/Router.php(689): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#25 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#26 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(141): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#27 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#28 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(101): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#29 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Routing/Router.php(690): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#30 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Routing/Router.php(660): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#31 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Routing/Router.php(618): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#32 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(155): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#33 [internal function]: Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#34 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(141): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#35 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(43): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#36 /Users/Jhonn/Desktop/github/BromasTelefonicas/app/Http/Middleware/VerifyCsrfToken.php(17): Illuminate\Foundation\Http\Middleware\VerifyCsrfToken->handle(Object(Illuminate\Http\Request), Object(Closure))
+#37 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(125): App\Http\Middleware\VerifyCsrfToken->handle(Object(Illuminate\Http\Request), Object(Closure))
+#38 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(55): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#39 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(125): Illuminate\View\Middleware\ShareErrorsFromSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#40 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(62): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#41 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(125): Illuminate\Session\Middleware\StartSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#42 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(36): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#43 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(125): Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
+#44 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(40): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#45 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(125): Illuminate\Cookie\Middleware\EncryptCookies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#46 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(42): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#47 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(125): Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
+#48 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#49 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(101): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#50 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(108): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#51 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(83): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#52 /Users/Jhonn/Desktop/github/BromasTelefonicas/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#53 /Users/Jhonn/Desktop/github/BromasTelefonicas/server.php(21): require_once('/Users/Jhonn/De...')
+#54 {main}  
+[2015-02-03 05:12:45] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'HTML' not found' in /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/views/8f1156c9c9fc3e5e8d4d224e20ec4a0a:18
+Stack trace:
+#0 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(116): Illuminate\Foundation\Bootstrap\HandleExceptions->fatalExceptionFromError(Array)
+#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#2 {main}  
+[2015-02-03 05:17:55] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'HTML' not found' in /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/views/8f1156c9c9fc3e5e8d4d224e20ec4a0a:18
+Stack trace:
+#0 /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/compiled.php(1709): Illuminate\Foundation\Bootstrap\HandleExceptions->fatalExceptionFromError(Array)
+#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#2 {main}  
+[2015-02-03 05:18:11] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'HTML' not found' in /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/views/8f1156c9c9fc3e5e8d4d224e20ec4a0a:18
+Stack trace:
+#0 /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/compiled.php(1709): Illuminate\Foundation\Bootstrap\HandleExceptions->fatalExceptionFromError(Array)
+#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#2 {main}  
+[2015-02-03 05:18:31] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'HTML' not found' in /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/views/8f1156c9c9fc3e5e8d4d224e20ec4a0a:18
+Stack trace:
+#0 /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/compiled.php(1709): Illuminate\Foundation\Bootstrap\HandleExceptions->fatalExceptionFromError(Array)
+#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#2 {main}  
+[2015-02-03 05:18:32] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'HTML' not found' in /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/views/8f1156c9c9fc3e5e8d4d224e20ec4a0a:18
+Stack trace:
+#0 /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/compiled.php(1709): Illuminate\Foundation\Bootstrap\HandleExceptions->fatalExceptionFromError(Array)
+#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#2 {main}  
+[2015-02-03 05:18:39] production.ERROR: exception 'InvalidArgumentException' with message 'Command "debug" is not defined.' in /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/symfony/console/Symfony/Component/Console/Application.php:549
+Stack trace:
+#0 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/symfony/console/Symfony/Component/Console/Application.php(192): Symfony\Component\Console\Application->find('debug')
+#1 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/symfony/console/Symfony/Component/Console/Application.php(126): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 /Users/Jhonn/Desktop/github/BromasTelefonicas/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(91): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 /Users/Jhonn/Desktop/github/BromasTelefonicas/artisan(34): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 {main}  
+[2015-02-03 05:18:50] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'HTML' not found' in /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/views/8f1156c9c9fc3e5e8d4d224e20ec4a0a:18
+Stack trace:
+#0 /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/compiled.php(1709): Illuminate\Foundation\Bootstrap\HandleExceptions->fatalExceptionFromError(Array)
+#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#2 {main}  
+[2015-02-03 05:19:13] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'HTML' not found' in /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/views/8f1156c9c9fc3e5e8d4d224e20ec4a0a:18
+Stack trace:
+#0 /Users/Jhonn/Desktop/github/BromasTelefonicas/storage/framework/compiled.php(1709): Illuminate\Foundation\Bootstrap\HandleExceptions->fatalExceptionFromError(Array)
+#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#2 {main}  

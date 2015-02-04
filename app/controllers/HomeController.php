@@ -20,4 +20,18 @@ class HomeController extends BaseController {
 		return View::make('hello');
 	}
 
+	public function call(){
+
+		Twilio::call('8098586191', 'http://joomla-erpp.rhcloud.com/hey.xml');
+	}
+
+	public function twilioXML(){
+		 return Twilio::twiml(function($message) {
+			    $message->say('Hello');
+			    $message->play('https://api.twilio.com/cowbell.mp3', array('loop' => 5));
+			});
+
+
+	}
+
 }

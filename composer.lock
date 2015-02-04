@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d84ac7a8f6830f9057f0a7f12a6c7aa5",
+    "hash": "df69f77bc1553539d995f3b8389ccd06",
     "packages": [
         {
             "name": "aloha/twilio",
@@ -590,6 +590,48 @@
                 "parser"
             ],
             "time": "2014-09-09 13:34:57"
+        },
+        {
+            "name": "dtisgodsson/twilio",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dtisgodsson/laravel4-twilio.git",
+                "reference": "90d5226f3827fe0407acb4ef5608c71878114c82"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dtisgodsson/laravel4-twilio/zipball/90d5226f3827fe0407acb4ef5608c71878114c82",
+                "reference": "90d5226f3827fe0407acb4ef5608c71878114c82",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=4.1.0",
+                "php": ">=5.3.0",
+                "twilio/sdk": "3.12.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Dtisgodsson\\Twilio\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Darren Taylor",
+                    "email": "shout@darrenonthe.net"
+                }
+            ],
+            "description": "A Laravel 4 wrapper for the Twilio PHP SDK.",
+            "keywords": [
+                "L4",
+                "laravel",
+                "laravel4",
+                "sms",
+                "twilio"
+            ],
+            "time": "2014-11-10 19:40:02"
         },
         {
             "name": "filp/whoops",
@@ -3615,7 +3657,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "dtisgodsson/twilio": 20
+    },
     "prefer-stable": false,
     "platform": [],
     "platform-dev": []

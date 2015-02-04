@@ -39,6 +39,7 @@ return array(
     'File' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'Faker\\PHPUnit' => array($vendorDir . '/fzaninotto/faker/test'),
     'Faker' => array($vendorDir . '/fzaninotto/faker/src'),
+    'Dtisgodsson\\Twilio\\' => array($vendorDir . '/dtisgodsson/twilio/src'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),

@@ -28,4 +28,49 @@ return array(
 		'secret' => '',
 	),
 
+	'twilio' => array(
+        'default' => 'twilio',
+        'connections' => array(
+            'twilio' => array(
+                /*
+                |--------------------------------------------------------------------------
+                | SID
+                |--------------------------------------------------------------------------
+                |
+                | Your Twilio Account SID #
+                |
+                */
+                'sid' => 'PNe3a9ddb0b6813b873196cf21664eb422',
+                /*
+                |--------------------------------------------------------------------------
+                | Access Token
+                |--------------------------------------------------------------------------
+                |
+                | Access token that can be found in your Twilio dashboard
+                |
+                */
+                'token' => 'fe0e88b3725f3dd8edf0af0a9a93b4ba',
+                /*
+                |--------------------------------------------------------------------------
+                | From Number
+                |--------------------------------------------------------------------------
+                |
+                | The Phone number registered with Twilio that your SMS & Calls will come from
+                |
+                */
+                'from' => '+14123243098',
+                /*
+                |--------------------------------------------------------------------------
+                | Verify Twilio's SSL Certificates
+                |--------------------------------------------------------------------------
+                |
+                | Allows the client to bypass verifiying Twilio's SSL certificates.
+                | It is STRONGLY advised to leave this set to true for production environments.
+                |
+                */
+                //'ssl_verify' => true,
+            ),
+        ),
+    ),
+
 );

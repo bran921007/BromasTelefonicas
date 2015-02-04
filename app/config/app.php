@@ -123,6 +123,8 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
+		'Aloha\Twilio\TwilioServiceProvider',
+		'Dtisgodsson\Twilio\TwilioServiceProvider',
 
 	),
 
@@ -190,6 +192,7 @@ return array(
 		'URL'               => 'Illuminate\Support\Facades\URL',
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
+		'Twilio' => 'Aloha\Twilio\Facades\Twilio',
 
 	),
 

@@ -44,7 +44,7 @@ class HomeController extends BaseController {
 
 		try{
 		
-			Twilio::to('+'.$telefono)->call($this->twilioXML($mensaje));
+			Twilio::to('+1'.$telefono)->call('http://104.131.62.203/xml/'.$mensaje);
 			return Response::json(array(
 				'success' => true,
 				'msg' => "llamada realizada satisfactoriamente"

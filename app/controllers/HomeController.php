@@ -42,9 +42,11 @@ class HomeController extends BaseController {
 		$mensaje = Input::get('mensaje');
 		$telefono = Input::get('telefono');
 
+		$mensaje = rawurlencode($mensaje);
+
 		try{
 		
-			Twilio::to('+1'.$telefono)->call('http://104.131.62.203/xml/'.$mensaje);
+			Twilio::to('+'.$telefono)->call('http://104.131.62.203/xml/'.$mensaje);
 			return Response::json(array(
 				'success' => true,
 				'msg' => "llamada realizada satisfactoriamente"
@@ -59,6 +61,8 @@ class HomeController extends BaseController {
 		
 	}
 
+
+
 	public function twilioXML($mensaje){
 		 // return Twilio::twiml(function($message) {
 			//     $message->say('Hello');
@@ -67,6 +71,7 @@ class HomeController extends BaseController {
 
 		  $twiml = new Services_Twilio_Twiml();
 		  $twiml->say($mensaje, array('voice' => 'woman','language'=>'es'));
+		  $twiml->play('http://joomla-erpp.rhcloud.com/Porno.mp3');
 		  $response = Response::make($twiml, 200);
 		  $response->header('Content-Type', 'text/xml');
 

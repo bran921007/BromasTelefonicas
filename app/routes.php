@@ -32,6 +32,7 @@ Route::filter('auth.token', function($route, $request)
 
 Route::get('/', function()
 {
+	//return rawurlencode("hola puta del carajo");
 	return View::make('index');
 });
 
@@ -46,6 +47,7 @@ Route::get('mensaje', function()
 // Route::get('/llamar', ['as' => 'dashboard', 'uses' => 'HomeController@llamar']);
 
 Route::get('/xml/{mensaje}', ['as' => 'dashboard', 'uses' => 'HomeController@twilioXML']);
+Route::post('/xml/{mensaje}', ['as' => 'dashboard', 'uses' => 'HomeController@twilioXML']);
 // Route::post('/xml', ['as' => 'dashboard', 'uses' => 'HomeController@twilioXML']);
 
 Route::post('/call', ['as' => 'dashboard', 'uses' => 'HomeController@call']);

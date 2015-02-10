@@ -35,6 +35,11 @@ Route::get('/', function()
 	//return rawurlencode("hola puta del carajo");
 	return View::make('index');
 });
+Route::get('/test', function()
+{
+	return View::make('sms');
+});
+
 
 Route::get('mensaje', function()
 {

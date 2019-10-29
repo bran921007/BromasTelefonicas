@@ -1,4 +1,4 @@
-Rojo
+SMS
 ====
 
-Rojo - Plataforma de Pago
+SMS sender via Twilio
